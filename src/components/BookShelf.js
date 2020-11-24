@@ -3,11 +3,11 @@ import BookGrid from "./BookGrid";
 import BookShelfTitle from "./BookShelfTitle";
 
 
-const BookShelf = () => {
+const BookShelf = ({title, books, shelves, onChange}) => {
     return (
         <div className="bookshelf">
-            <BookShelfTitle/>
-            <BookGrid/>
+            <BookShelfTitle title={title}/>
+            <BookGrid books={books} shelves={shelves} onChange={onChange}/>
         </div>
     );
 };
