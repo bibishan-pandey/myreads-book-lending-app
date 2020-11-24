@@ -3,11 +3,12 @@ import BookCover from "./BookCover";
 import BookShelfChanger from "./BookShelfChanger";
 
 
-const BookTop = () => {
+const BookTop = ({book, shelves, onChange}) => {
+    const image = book['imageLinks']['thumbnail'];
     return (
         <div className="book-top">
-            <BookCover/>
-            <BookShelfChanger/>
+            <BookCover image={image}/>
+            <BookShelfChanger book={book} shelves={shelves} onChange={onChange}/>
         </div>
     );
 };
