@@ -1,8 +1,8 @@
 import React from 'react';
 
 
-const BookShelfTitle = () => {
-    return <h2 className="bookshelf-title">Currently Reading</h2>;
+const BookShelfTitle = ({title}) => {
+    return <h2 className="bookshelf-title">{title}</h2>;
 };
 
 export default BookShelfTitle;
