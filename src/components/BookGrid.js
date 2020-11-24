@@ -2,16 +2,11 @@ import React from 'react';
 import BookCard from "./BookCard";
 
 
-const BookGrid = () => {
+const BookGrid = ({books, shelves, onChange}) => {
     return (
         <div className="bookshelf-books">
             <ol className="books-grid">
-                <li>
-                    <BookCard/>
-                </li>
-                <li>
-                    <BookCard/>
-                </li>
+                {books.map(book => <li key={book.id}><BookCard book={book} shelves={shelves} onChange={onChange}/></li>)}
             </ol>
         </div>
     );
