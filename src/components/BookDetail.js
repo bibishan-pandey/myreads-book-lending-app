@@ -1,11 +1,13 @@
 import React from 'react';
 
 
-const BookDetail = () => {
+const BookDetail = ({title, authors}) => {
     return (
         <React.Fragment>
-            <div className="book-title">To Kill a Mockingbird</div>
-            <div className="book-authors">Harper Lee</div>
+            <div className="book-title">{title}</div>
+            <div className="book-authors">
+                {authors.map((author, index) => <p key={index}>{author}</p>)}
+            </div>
         </React.Fragment>
     );
 };
