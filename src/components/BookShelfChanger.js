@@ -1,16 +1,17 @@
 import React from 'react';
 
 
-const BookShelfChanger = () => {
+const BookShelfChanger = ({book, shelves, onChange}) => {
     return (
         <div className="book-shelf-changer">
-            <select>
+            <select name={"shelf"} value={book.shelf} onChange={(e) => onChange(e, book)}>
                 <option value="move" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading
-                </option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
+                {shelves.length !== 0 && shelves.map((shelf, index) => {
+                    const shelfName = shelf === 'currentlyReading'
+                        ? 'Currently Reading' : shelf === 'wantToRead'
+                            ? 'Want to Read' : "Read";
+                    return <option key={index} value={shelf}>{shelfName}</option>;
+                })}
             </select>
         </div>
     );
