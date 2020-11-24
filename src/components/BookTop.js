@@ -4,7 +4,7 @@ import BookShelfChanger from "./BookShelfChanger";
 
 
 const BookTop = ({book, shelves, onChange}) => {
-    const image = book['imageLinks']['thumbnail'];
+    const image = book.imageLinks ? book.imageLinks.thumbnail : null;
     return (
         <div className="book-top">
             <BookCover image={image}/>

@@ -1,29 +1,54 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+
+import * as BooksAPI from '../BooksAPI'
+
+import BookCard from "./BookCard";
 
 
-const SearchBar = () => {
-    return (
-        <div className="search-books">
-            <div className="search-books-bar">
-                <button className="close-search" onClick={() => this.setState({showSearchPage: false})}>Close</button>
-                <div className="search-books-input-wrapper">
-                    {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+class SearchBar extends React.Component {
 
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                    <input type="text" placeholder="Search by title or author"/>
+    state = {
+        query: '',
+        books: [],
+    }
 
+    handleUpdateQuery(query) {
+        if (this.state.query !== '' && query !== '') {
+            BooksAPI.search(query).then(books => books ? this.setState({ books }) : []);
+            this.setState({ query: query });
+        } else {
+            BooksAPI.search(query).then(() => this.setState({ books: [] }));
+            this.setState({query: query});
+        }
+    }
+
+    render() {
+        return (
+            <div className="search-books">
+                <div className="search-books-bar">
+                    <Link to={'/'}><button className="close-search">Close</button></Link>
+                    <div className="search-books-input-wrapper">
+                        <input type="text"
+                               name={"query"}
+                               value={this.state.query}
+                               onChange={e => this.handleUpdateQuery(e.target.value)}
+                               placeholder="Search by title or author"/>
+
+                    </div>
+                </div>
+                <div className="search-books-results">
+                    <ol className="books-grid">
+                        {this.state.books.error ? <div>No results found</div>
+                            : this.state.books.map(book =>
+                                <li key={book.id}>
+                                    <BookCard book={book} shelves={this.props.shelves} onChange={this.props.onChange}/>
+                                </li>)}
+                    </ol>
                 </div>
             </div>
-            <div className="search-books-results">
-                <ol className="books-grid"></ol>
-            </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
 export default SearchBar;

@@ -1,39 +1,34 @@
-import React from 'react'
-import * as BooksAPI from './BooksAPI'
+import React from 'react';
+import {
+    Switch,
+    Redirect,
+    Route,
+} from "react-router-dom";
 
+import * as BooksAPI from './BooksAPI';
+
+import Dashboard from "./components/Dashboard";
 import SearchBar from "./components/SearchBar";
-import Header from "./components/Header";
-import BookList from "./components/BookList";
 
 import './App.css'
 
 
 class BooksApp extends React.Component {
     state = {
-        /**
-         * TODO: Instead of using this state variable to keep track of which page
-         * we're on, use the URL in the browser's address bar. This will ensure that
-         * users can use the browser's back and forward buttons to navigate between
-         * pages, as well as provide a good URL they can bookmark and share.
-         */
-        showSearchPage: false,
         books: [],
-        shelves: [],
+        shelves: ['currentlyReading', 'wantToRead', 'read'],
     }
-
-    shelves = [];
 
     componentDidMount() {
         BooksAPI.getAll().then(books => {
-            books.map(book => (!this.shelves.includes(book.shelf.trim())) && this.shelves.push(book.shelf));
-            this.setState({books, shelves: this.shelves});
+            this.setState({books});
         });
     }
 
     changeShelf = (e, book) => {
         const books = [...this.state.books];
         const sameShelfBooks = books.filter(b => b.id !== book.id);
-        const changedShelfBook = books.filter(b => b.id === book.id)[0];
+        const changedShelfBook = books.filter(b => b.id === book.id)[0] || book;
         changedShelfBook.shelf = e.currentTarget.value;
         const updatedBooks = [...sameShelfBooks, changedShelfBook];
         BooksAPI.update(book, e.currentTarget.value).then(() => this.setState({books: updatedBooks}))
@@ -43,17 +38,15 @@ class BooksApp extends React.Component {
         const {books, shelves} = this.state;
         return (
             <div className="app">
-                {this.state.showSearchPage ? (
-                    <SearchBar/>
-                ) : (
-                    <div className="list-books">
-                        <Header/>
-                        <BookList books={books} shelves={shelves} onChange={this.changeShelf}/>
-                        <div className="open-search">
-                            <button onClick={() => this.setState({showSearchPage: true})}>Add a book</button>
-                        </div>
-                    </div>
-                )}
+                <Switch>
+                    <Route path="/" exact render={
+                        (props) => <Dashboard books={books} shelves={shelves} onChange={this.changeShelf} {...props} />
+                    }/>
+                    <Route path="/search" render={
+                        (props) => <SearchBar shelves={shelves} onChange={this.changeShelf} {...props} />
+                    }/>
+                    <Redirect to={'/'}/>
+                </Switch>
             </div>
         )
     }
