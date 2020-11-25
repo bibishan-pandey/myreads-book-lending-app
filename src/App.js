@@ -16,7 +16,20 @@ import './App.css'
 class BooksApp extends React.Component {
     state = {
         books: [],
-        shelves: ['currentlyReading', 'wantToRead', 'read'],
+        shelves: [
+            {
+                title: 'Currently Reading',
+                id: 'currentlyReading',
+            },
+            {
+                title: 'Want To Read',
+                id: 'wantToRead',
+            },
+            {
+                title: 'Read',
+                id: 'read',
+            },
+        ],
     }
 
     componentDidMount() {
