@@ -11,9 +11,7 @@ const Dashboard = ({books, shelves, onChange}) => {
         <div className="list-books">
             <Header/>
             <BookList books={books} shelves={shelves} onChange={onChange}/>
-            <div className="open-search">
-                <Link to={'/search'}><button>Add a book</button></Link>
-            </div>
+            <Link to={'/search'} className="open-search">Add a book</Link>
         </div>
     );
 };
