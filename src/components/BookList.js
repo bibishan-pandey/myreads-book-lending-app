@@ -3,7 +3,6 @@ import BookShelf from "./BookShelf";
 
 
 const BookList = ({books, shelves, onChange}) => {
-    console.log(shelves);
     return (
         <div className="list-books-content">
             <div>

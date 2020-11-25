@@ -32,10 +32,9 @@ class BooksApp extends React.Component {
         ],
     }
 
-    componentDidMount() {
-        BooksAPI.getAll().then(books => {
-            this.setState({books});
-        });
+    async componentDidMount() {
+        const books = await BooksAPI.getAll();
+        this.setState({books});
     }
 
     changeShelf = (e, book) => {
