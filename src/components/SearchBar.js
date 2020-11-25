@@ -11,18 +11,44 @@ class SearchBar extends React.Component {
 
     state = {
         query: '',
-        books: [],
+        searchedBooks: [],
     }
 
-    handleUpdateQuery(query) {
+    checkAddedBooks = (searchedBooks=[], stateBooks) => {
+        const stateBookIDs = stateBooks.map(book => book.id);
+        const addedBook = [];
+        const notAddedBooks = [];
+
+        (!searchedBooks.error && searchedBooks.length !== 0) && searchedBooks.map(searchedBook => {
+            if (!stateBookIDs.includes(searchedBook.id)) {
+                searchedBook.shelf = 'none';
+                notAddedBooks.push(searchedBook);
+            } else {
+                stateBooks.length !== 0 && stateBooks.map(stateBook => {
+                    if (stateBook.id === searchedBook.id) {
+                        searchedBook.shelf = stateBook.shelf;
+                        addedBook.push(searchedBook);
+                    }
+                    return stateBook;
+                });
+            }
+            return searchedBook;
+        });
+        !searchedBooks.error ? this.setState({searchedBooks: [...addedBook, ...notAddedBooks]})
+            : this.setState({searchedBooks});
+    };
+
+    handleUpdateQuery = (query) => {
         if (this.state.query !== '' && query !== '') {
-            BooksAPI.search(query).then(books => books ? this.setState({ books }) : []);
             this.setState({ query: query });
+            BooksAPI.search(query).then(searchedBooks => {
+                return this.checkAddedBooks(searchedBooks, this.props.books);
+            });
         } else {
-            BooksAPI.search(query).then(() => this.setState({ books: [] }));
+            BooksAPI.search(query).then(() => this.setState({ searchedBooks: [] }));
             this.setState({query: query});
         }
-    }
+    };
 
     render() {
         return (
@@ -40,8 +66,8 @@ class SearchBar extends React.Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {this.state.books.error ? <div>No results found</div>
-                            : this.state.books.map(book =>
+                        {this.state.searchedBooks.error ? <div>No results found</div>
+                            : this.state.searchedBooks.map(book =>
                                 <li key={book.id}>
                                     <BookCard book={book} shelves={this.props.shelves} onChange={this.props.onChange}/>
                                 </li>)}
@@ -53,7 +79,7 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-    // books: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
     shelves: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
 };

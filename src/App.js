@@ -55,7 +55,7 @@ class BooksApp extends React.Component {
                         (props) => <Dashboard books={books} shelves={shelves} onChange={this.changeShelf} {...props} />
                     }/>
                     <Route path="/search" render={
-                        (props) => <SearchBar shelves={shelves} onChange={this.changeShelf} {...props} />
+                        (props) => <SearchBar books={books} shelves={shelves} onChange={this.changeShelf} {...props} />
                     }/>
                     <Redirect to={'/'}/>
                 </Switch>
