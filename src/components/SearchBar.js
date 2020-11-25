@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import * as BooksAPI from '../BooksAPI'
@@ -50,5 +51,11 @@ class SearchBar extends React.Component {
         );
     }
 }
+
+SearchBar.propTypes = {
+    // books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 
 const BookDetail = ({title, authors}) => {
@@ -10,6 +11,10 @@ const BookDetail = ({title, authors}) => {
             </div>
         </React.Fragment>
     );
+};
+
+BookDetail.propTypes = {
+    title: PropTypes.string.isRequired,
 };
 
 export default BookDetail;

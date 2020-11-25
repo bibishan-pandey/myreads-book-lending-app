@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from "prop-types";
+
 import BookCard from "./BookCard";
 
 
@@ -10,6 +12,12 @@ const BookGrid = ({books, shelves, onChange}) => {
             </ol>
         </div>
     );
+};
+
+BookGrid.propTypes = {
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default BookGrid;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
 import Header from "./Header";
@@ -15,6 +16,12 @@ const Dashboard = ({books, shelves, onChange}) => {
             </div>
         </div>
     );
+};
+
+Dashboard.propTypes = {
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default Dashboard;

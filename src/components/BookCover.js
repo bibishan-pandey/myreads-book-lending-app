@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 
 const BookCover = ({image}) => {
@@ -9,6 +10,10 @@ const BookCover = ({image}) => {
             backgroundImage: `url(${image})`
         }}></div>
     );
+};
+
+BookCover.propTypes = {
+    image: PropTypes.string.isRequired,
 };
 
 export default BookCover;
